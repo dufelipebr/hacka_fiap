@@ -23,6 +23,9 @@ namespace apibronco.bronco.com.br.Entity
 
         public TimeSpan Hora_Fim { get; set; }
 
+      
+        public bool flagReservado { get; set; }
+
         public override bool IsValid()
         {
             AssertionConcern.AssertArgumentNotEmpty(CRM_BeforeLoad, "CRM não pode ser vazio");

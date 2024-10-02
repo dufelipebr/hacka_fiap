@@ -63,18 +63,10 @@ namespace apibronco.bronco.com.br.Repository.Mongodb
             return allDocs;
         }
 
-        ////public agendaMedico ObterPorCodigo(string codigo_interno)
-        ////{
-        ////    var client = new MongoClient(ConnectionString);
-        ////    IMongoCollection<agendaMedico> _collection = client.GetDatabase(DbName).GetCollection<agendaMedico>("agendaMedico");
-        ////    var filter = Builders<agendaMedico>.Filter.Eq(e => e.Codigo_Interno, codigo_interno);
-        ////    var allDocs = _collection.Find(filter).ToList();
-
-        ////    if (allDocs.Count == 0)
-        ////        throw new Exception("codigo interno não encontrado");
-
-        ////    return allDocs.FirstOrDefault<agendaMedico>();
-        ////}
+        //public agendaMedico ObterPorCodigo(string codigo_interno)
+        //{
+        //    //ObterTodos.Where(x => x.flagReservado == 0);
+        //}
 
         public override bool IsUnique(AgendaMedico entidade)
         {

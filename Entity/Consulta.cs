@@ -17,10 +17,7 @@ namespace apibronco.bronco.com.br.Entity
 
         public string MedicoID { get; set; }
 
-        public DateTime Data { get; set; }
-
-        public TimeSpan Hora { get; set; }
-
+        public string AgendaMedicoID { get; set; }
 
 
         public override bool IsValid()
