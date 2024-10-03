@@ -27,10 +27,6 @@
 	  <None Remove="xunit.hackfiap.br\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Remove="appsettings.Development.json" />
-	  <Content Remove="appsettings.json" />
-	</ItemGroup>
-	<ItemGroup>
 	  <None Remove="apibronco.bronco.com.br.http" />
 	</ItemGroup>
 
