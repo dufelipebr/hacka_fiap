@@ -71,14 +71,20 @@ namespace apibronco.bronco.com.br.Repository.Mongodb
             return allDocs.FirstOrDefault<Paciente>();
         }
 
+        /// <summary>
+        ///  ira realizar a busca por CPF
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public override Paciente ObterPorCodigo(string codigo)
         {
-            throw new NotImplementedException();
-            //var client = new MongoClient(ConnectionString);
-            //IMongoCollection<Paciente> _collection = client.GetDatabase(DbName).GetCollection<Paciente>("Paciente");
-            ////var filter = Builders<Paciente>.Filter.Eq(e => e.Email, codigo) & Builders<Paciente>.Filter.Eq(e => e.Id_Status, 1);
-            //var allDocs = _collection.Find(filter).ToList();
-            //return allDocs.FirstOrDefault<Paciente>();
+            
+            var client = new MongoClient(ConnectionString);
+            IMongoCollection<Paciente> _collection = client.GetDatabase(DbName).GetCollection<Paciente>("Paciente");
+            var filter = Builders<Paciente>.Filter.Eq(e => e.CPF, codigo);
+            var allDocs = _collection.Find(filter).ToList();
+            return allDocs.FirstOrDefault<Paciente>();
         }
 
         public override IList<Paciente> ObterTodos()

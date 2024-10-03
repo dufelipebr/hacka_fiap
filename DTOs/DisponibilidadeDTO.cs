@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace apibronco.bronco.com.br.Entity
 {
+
     public class DisponibilidadeDTO 
     {
         public string CRM { get; set; }
