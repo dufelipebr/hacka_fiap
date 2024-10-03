@@ -68,9 +68,10 @@ namespace fiap_hacka.Controllers
 
                 if (validaMedico == null)
                     return NotFound("Médico não encontrado pelo CRM.");
-                        
-                _agendaMedicoRepository.Cadastrar(disp);
 
+                disp.MedicoID = validaMedico.FirstOrDefault().Id;
+                _agendaMedicoRepository.Cadastrar(disp);
+                
                 //_usuarioRepository.Cadastrar(usr);
 
             }

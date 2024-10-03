@@ -1,4 +1,5 @@
 ﻿using apibronco.bronco.com.br.DTOs;
+using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace apibronco.bronco.com.br.Entity
@@ -15,6 +16,9 @@ namespace apibronco.bronco.com.br.Entity
             IsValid();
         }
 
+        public string MedicoID { get; set; }
+        
+        [BsonIgnore]
         public string CRM_BeforeLoad { get; set; }
 
         public DateTime DataHoraInicio { get; set; }
