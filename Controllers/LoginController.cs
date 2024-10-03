@@ -24,10 +24,18 @@ namespace fiap_hacka.Controllers
         }
 
         /// <summary>
-        /// Permite realizar login do cliente segurado no portal corretor online
+        /// item 2 e item 5 Autenticação do usuario : permite login do medico e do paciente com e-mail senha.
         /// </summary>
         /// <param name="login"></param>
-        /// <returns></returns>
+        /// <returns>
+        ///  return Ok(new
+        ///        {
+        ///            Usuario = usuario,
+        ///            Medico = medInfo,
+        ///            Paciente = pacienteInfo,
+        ///            Token = token
+        ///});
+        /// </returns>
         [HttpPost("login")]
         public IActionResult login([FromBody] LoginDTO login)
         {

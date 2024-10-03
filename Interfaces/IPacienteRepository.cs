@@ -1,4 +1,5 @@
 ﻿using apibronco.bronco.com.br.Entity;
+using System.Diagnostics.Contracts;
 
 namespace apibronco.bronco.com.br.Interfaces
 {
