@@ -82,7 +82,7 @@ namespace apibronco.bronco.com.br.Repository.Mongodb
             
             var client = new MongoClient(ConnectionString);
             IMongoCollection<Paciente> _collection = client.GetDatabase(DbName).GetCollection<Paciente>("Paciente");
-            var filter = Builders<Paciente>.Filter.Eq(e => e.CPF, codigo);
+            var filter = Builders<Paciente>.Filter.Eq(e => e.CPF.ToString(), codigo);
             var allDocs = _collection.Find(filter).ToList();
             return allDocs.FirstOrDefault<Paciente>();
         }

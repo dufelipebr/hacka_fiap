@@ -9,13 +9,12 @@ namespace apibronco.bronco.com.br.Entity
         public Paciente(PacienteDTO info)
         {
             this.Nome = info.Nome;
-            this.CPF = info.CPF_CNPJ;
-
+            this.CPF = new ObjectCPF(info.CPF_CNPJ);
             IsValid();
         }
         #endregion
         public string Nome { get; set; }
-        public string CPF { get; set; }
+        public ObjectCPF CPF { get; set; }
         public string UsuarioID { get; set; }
 
 
@@ -25,7 +24,7 @@ namespace apibronco.bronco.com.br.Entity
         {
             AssertionConcern.AssertArgumentNotEmpty(Nome, "Nome precisa ser preenchido.");
 
-            AssertionConcern.AssertArgumentNotEmpty(CPF, "CPF precisa ser preenchido.");
+            AssertionConcern.AssertArgumentNotEmpty(CPF.ToString(), "CPF precisa ser preenchido.");
 
             return true;
         }

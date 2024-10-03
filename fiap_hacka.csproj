@@ -15,12 +15,23 @@
 	<ItemGroup>
 	  <Compile Remove="NewFolder1\**" />
 	  <Compile Remove="NewFolder\**" />
+	  <Compile Remove="xunit.hackfiap.br\**" />
 	  <Content Remove="NewFolder1\**" />
 	  <Content Remove="NewFolder\**" />
+	  <Content Remove="xunit.hackfiap.br\**" />
 	  <EmbeddedResource Remove="NewFolder1\**" />
 	  <EmbeddedResource Remove="NewFolder\**" />
+	  <EmbeddedResource Remove="xunit.hackfiap.br\**" />
 	  <None Remove="NewFolder1\**" />
 	  <None Remove="NewFolder\**" />
+	  <None Remove="xunit.hackfiap.br\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="appsettings.Development.json" />
+	  <Content Remove="appsettings.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="apibronco.bronco.com.br.http" />
 	</ItemGroup>
 
   <ItemGroup>
