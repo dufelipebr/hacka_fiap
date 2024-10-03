@@ -7,16 +7,14 @@ namespace apibronco.bronco.com.br.Entity
     {
         public string CRM { get; set; }
 
-        public DateTime Data { get; set; }
+        public DateTime DataHoraInicio { get; set; }
 
-        public TimeSpan Hora_Inicio { get; set; }
+        public DateTime DataHoraFim { get; set; }
 
-        public TimeSpan Hora_Fim { get; set; }
+        //public TimeSpan Intervalo { get; set; }
 
-        public RecorrenciaAgenda Recorrencia { get; set; }
+        //public RecorrenciaAgenda Recorrencia { get; set; }
 
-
-       
 
     }
 }

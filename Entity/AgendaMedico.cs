@@ -8,29 +8,29 @@ namespace apibronco.bronco.com.br.Entity
         public AgendaMedico(DisponibilidadeDTO dto)
         {
             this.CRM_BeforeLoad = dto.CRM;
-            this.Data = dto.Data;
-            this.Hora_Inicio = dto.Hora_Inicio;
-            this.Hora_Fim = dto.Hora_Fim;
+            this.DataHoraInicio = dto.DataHoraInicio;
+            this.DataHoraFim = dto.DataHoraFim;
+            //this.TempoConsulta = dto.DataHoraFim;
 
             IsValid();
         }
 
         public string CRM_BeforeLoad { get; set; }
 
-        public DateTime Data { get; set; }
+        public DateTime DataHoraInicio { get; set; }
 
-        public TimeSpan Hora_Inicio { get; set; }
+        public DateTime DataHoraFim { get; set; }
 
-        public TimeSpan Hora_Fim { get; set; }
-
+        public string TempoConsulta { get; set; }
       
         public bool flagReservado { get; set; }
 
         public override bool IsValid()
         {
             AssertionConcern.AssertArgumentNotEmpty(CRM_BeforeLoad, "CRM não pode ser vazio");
-            AssertionConcern.AssertStateFalse(Data < DateTime.Now, "Data invalida, precisa ser superior a data atual ou no mesmo dia.");
-
+            AssertionConcern.AssertStateFalse(DataHoraInicio < DateTime.Now, "Data invalida, precisa ser superior a data atual ou no mesmo dia.");
+            AssertionConcern.AssertStateFalse(DataHoraInicio > DataHoraFim, "Inicio da consulta deve ser menor que o final");
+            AssertionConcern.AssertArgumentRange(DataHoraFim.Subtract(DataHoraInicio).TotalMinutes, 30, 60, "O tempo da consulta não pode ser menor que 30 min e maior que 60min.");
             return true;
         }
 

@@ -11,7 +11,6 @@ namespace apibronco.bronco.com.br.Entity
 
             IsValid();
         }
-        //public StatusProposta StatusProposta { get; set; }
 
         public string PacienteID { get; set; }
 
