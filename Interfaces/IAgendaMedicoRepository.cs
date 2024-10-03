@@ -5,6 +5,6 @@ namespace apibronco.bronco.com.br.Interfaces
 {
     public interface IAgendaMedicoRepository : IRepository<AgendaMedico>
     {
-        //public Proposta ObterPorCodigoInterno(string id);
+        public IList<AgendaMedico> ObterPorMedicoID(string id);
     }
 }

@@ -22,7 +22,7 @@ namespace fiap_hacka.Controllers
             _pacienteRepository = pacienteRepository;
         }
         /// <summary>
-        /// permite a criação de usuarios - segurados no corretor online
+        /// item 4. permite a criação de usuarios - segurados no corretor online
         /// </summary>
         /// <param name="RegisterInfo">informações do usuario segurado que será criado</param>
         /// <returns></returns>
@@ -53,26 +53,24 @@ namespace fiap_hacka.Controllers
         }
 
         /// <summary>
-        /// permite a criação de usuarios - segurados no corretor online
+        /// listar pacientes
         /// </summary>
-        /// <param name="info">informações do usuario segurado que será criado</param>
+        /// informações dos pacientes cadastrados na base.
         /// <returns></returns>
         //[Authorize]
-        [HttpGet("listar_medico")]
-        public IActionResult listar_medico()
+        [HttpGet("listar_pacientes")]
+        public IActionResult listar_pacientes()
         {
             try
             {
-
-                var medicos = _medicoRepository.ObterTodos();
-                return Ok(medicos);
+                
+                var lista = _pacienteRepository.ObterTodos();
+                return Ok(lista);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-
         }
     }
 }

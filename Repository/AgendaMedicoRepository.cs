@@ -15,7 +15,7 @@ namespace apibronco.bronco.com.br.Repository.Mongodb
 
         public override void Alterar(AgendaMedico entidade)
         {
-            if (!entidade.IsValid()) return;
+            //if (!entidade.IsValid()) return;
 
             entidade.LastUpdateOn = DateTime.Now;
 
@@ -60,6 +60,15 @@ namespace apibronco.bronco.com.br.Repository.Mongodb
             var client = new MongoClient(ConnectionString);
             IMongoCollection<AgendaMedico> _collection = client.GetDatabase(DbName).GetCollection<AgendaMedico>("agendaMedico"); ;
             var allDocs = _collection.Find(Builders<AgendaMedico>.Filter.Empty).ToList();
+            return allDocs;
+        }
+
+        public IList<AgendaMedico> ObterPorMedicoID(string medicoID)
+        {
+            var client = new MongoClient(ConnectionString);
+            IMongoCollection<AgendaMedico> _collection = client.GetDatabase(DbName).GetCollection<AgendaMedico>("agendaMedico"); ;
+            var filter = Builders<AgendaMedico>.Filter.Eq(e => e.MedicoID, medicoID);
+            var allDocs = _collection.Find(filter).ToList();
             return allDocs;
         }
 
