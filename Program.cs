@@ -7,6 +7,9 @@ using System.Reflection;
 using System.Text;
 using apibronco.bronco.com.br.Services;
 using apibronco.bronco.com.br.Repository.Mongodb;
+using fiap_hacka.Entity;
+using fiap_hacka.Interfaces;
+using fiap_hacka.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,9 @@ var builder = WebApplication.CreateBuilder(args);
 //                                              "http://www.contoso.com");
 //                      });
 //});
+
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.AddSingleton<ISendEmail, EmailService>();
 
 builder.Services.AddCors();
 
