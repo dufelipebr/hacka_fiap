@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build fiap_hacka.csproj --no-restore
     - name: Test
-      run: dotnet test "xunit.hackfiap.br\xunit.hackfiap.csproj" --no-build --verbosity normal
+      run: dotnet test ".\xunit.hackfiap.br\xunit.hackfiap.csproj" --no-build --verbosity normal
