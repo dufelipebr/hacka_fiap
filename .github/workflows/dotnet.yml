@@ -24,6 +24,8 @@ jobs:
       run: dotnet restore fiap_hacka.csproj
     - name: Build
       run: dotnet build fiap_hacka.csproj --no-restore
+    - name: Restore dependencies Test
+      run: dotnet restore ".\xunit.hackfiap.br\xunit.hackfiap.csproj"
     - name: BuildTest
       run: dotnet build ".\xunit.hackfiap.br\xunit.hackfiap.csproj" --no-restore
     - name: Test
