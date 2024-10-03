@@ -2,7 +2,7 @@
 {
     public enum EnumTipoAcesso
     {
-        Pacionte = 1, 
+        Paciente = 1, 
         Medico = 2,
     }
 

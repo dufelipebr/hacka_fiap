@@ -10,7 +10,7 @@ namespace apibronco.bronco.com.br.Entity
         {
             this.Email= info.Email;
             this.Senha = info.Senha;
-            this.TipoLogin = EnumTipoAcesso.Pacionte;
+            this.TipoLogin = EnumTipoAcesso.Paciente;
 
             IsValid();
         }

@@ -9,10 +9,12 @@ namespace fiap_hacka.Services
     public class EmailService : ISendEmail
     {
         private readonly SmtpSettings _smtpSettings;
-
-        public EmailService(IOptions<SmtpSettings> smtpSettings)
+        private readonly IWebHostEnvironment _env;
+        public EmailService(IOptions<SmtpSettings> smtpSettings, IWebHostEnvironment env)
         {
             _smtpSettings = smtpSettings.Value;
+            _env = env;
+
         }
         public async Task SendEmailAsync(string email, string subject, string body)
         {
@@ -33,8 +35,10 @@ namespace fiap_hacka.Services
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                    
-                    await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, true);
+                    if (_env.IsDevelopment())
+                        await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, true);
+                    else
+                        await client.ConnectAsync(_smtpSettings.Server);
 
                     await client.AuthenticateAsync(_smtpSettings.Username,
                                                    _smtpSettings.Password);

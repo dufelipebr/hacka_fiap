@@ -1,9 +1,8 @@
 ﻿using apibronco.bronco.com.br.DTOs;
 using apibronco.bronco.com.br.Entity;
 using apibronco.bronco.com.br.Interfaces;
-using apibronco.bronco.com.br.Repository.Mongodb;
+using fiap_hacka.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver.Core.Operations;
 using MongoDB.Driver.Linq;
 
 namespace fiap_hacka.Controllers
@@ -17,18 +16,21 @@ namespace fiap_hacka.Controllers
         private readonly IConsultaRepository _consultaRepository;
         private readonly IAgendaMedicoRepository _agendaMedicoRepository;
         private readonly IPacienteRepository _pacienteRepository;
+        private readonly ISendEmail _sendEmail;
 
         public MedicoController(IMedicoRepository medicoRepository, 
-            IUsuarioRepository usuarioRepository, 
-            IConsultaRepository consultaRepository, 
+            IUsuarioRepository usuarioRepository,
+            IConsultaRepository consultaRepository,
             IAgendaMedicoRepository agendaMedicoRepository,
-            IPacienteRepository pacienteRepository)
+            IPacienteRepository pacienteRepository,
+            ISendEmail sendEmail)
         {
             _medicoRepository = medicoRepository;
             _usuarioRepository = usuarioRepository;
             _agendaMedicoRepository = agendaMedicoRepository;
             _pacienteRepository = pacienteRepository;
             _consultaRepository = consultaRepository;
+            _sendEmail = sendEmail;
         }
 
         /// <summary>
@@ -154,6 +156,11 @@ namespace fiap_hacka.Controllers
                 agenda.flagReservado = true;
                 _agendaMedicoRepository.Alterar(agenda); // reservar a agenda do medico
                 _consultaRepository.Cadastrar(cons);// criar a consulta.
+
+                var medico = _medicoRepository.ObterPorUsuarioID(agenda.MedicoID);
+
+                _sendEmail.SendEmailAsync("ti.alexandre.costa@gmail.com", "teste de envio", "Olá teste");
+
             }
             catch (Exception ex)
             {
