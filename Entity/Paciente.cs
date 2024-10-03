@@ -14,8 +14,19 @@ namespace apibronco.bronco.com.br.Entity
         }
         #endregion
         public string Nome { get; set; }
-        public ObjectCPF CPF { get; set; }
+        public ObjectCPF CPF {  get; set; }
         public string UsuarioID { get; set; }
+
+        public string readonly_CPF 
+        {
+            get
+            {
+                if (CPF != null)
+                    return CPF.ToString();
+
+                return "";
+            } 
+        }
 
 
 
