@@ -44,14 +44,23 @@ namespace fiap_hacka.Controllers
 
             try
             {
-                Usuario usr = new Usuario(info);
-                _usuarioRepository.Cadastrar(usr);
+                Usuario usr = new Usuario(info); // Validações realizadas.
+                Medico medico = new Medico(info); // Validações realizadas.
 
-                // criar usuario na base de dados
-                Medico medico = new Medico(info);
+                List<Medico> validaCRM = _medicoRepository.ObterTodos().Where(o => o.CRM == info.NumeroCrm).ToList();
+                if (validaCRM.Count > 0)
+                    return BadRequest("Já existe medico cadastrado com esse CRM.");
+
+                bool isValid = medico.IsValid() && usr.IsValid();
+
+                if (!_usuarioRepository.IsUnique(usr))
+                    return BadRequest("Email já cadastrado não pode ser utilizado");
+
+                if (isValid) _usuarioRepository.Cadastrar(usr); // criar usuario na base de dados
+
                 medico.UsuarioID = usr.Id;
-                _medicoRepository.Cadastrar(medico);
-            }
+                if (isValid) _medicoRepository.Cadastrar(medico);
+            } 
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);

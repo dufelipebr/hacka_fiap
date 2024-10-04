@@ -9,7 +9,8 @@ namespace apibronco.bronco.com.br.Entity
         public Medico(MedicoDTO info) 
         {
             this.Nome = info.Nome;
-            this.CPF = info.CPF_CNPJ;
+            //this.CPF = info.CPF_CNPJ;
+            this.CPF = new ObjectCPF(info.CPF_CNPJ).CPF_Value;
             this.CRM = info.NumeroCrm;
 
             IsValid();

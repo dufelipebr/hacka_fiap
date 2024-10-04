@@ -74,7 +74,7 @@ namespace xunit.hackfiap
             dto.Senha = "123456";
             dto.Nome = "carlos oliveira";
             dto.Senha = "@123456cC";
-            dto.CPF_CNPJ = "55.111.1221-12";
+            dto.CPF_CNPJ = "553.111.121-12";
             dto.NumeroCrm = "crm1234";
             
             //act
