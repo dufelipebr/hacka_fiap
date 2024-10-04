@@ -6,6 +6,7 @@ namespace apibronco.bronco.com.br.Entity
 
     public class DisponibilidadeDTO 
     {
+        public string Id { get; set; }
         public string CRM { get; set; }
 
         public DateTime DataHoraInicio { get; set; }

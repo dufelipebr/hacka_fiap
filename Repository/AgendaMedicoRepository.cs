@@ -58,7 +58,7 @@ namespace apibronco.bronco.com.br.Repository.Mongodb
         public override IList<AgendaMedico> ObterTodos()
         {
             var client = new MongoClient(ConnectionString);
-            IMongoCollection<AgendaMedico> _collection = client.GetDatabase(DbName).GetCollection<AgendaMedico>("agendaMedico"); ;
+            IMongoCollection<AgendaMedico> _collection = client.GetDatabase(DbName).GetCollection<AgendaMedico>("agendaMedico");
             var allDocs = _collection.Find(Builders<AgendaMedico>.Filter.Empty).ToList();
             return allDocs;
         }
@@ -66,7 +66,7 @@ namespace apibronco.bronco.com.br.Repository.Mongodb
         public IList<AgendaMedico> ObterPorMedicoID(string medicoID)
         {
             var client = new MongoClient(ConnectionString);
-            IMongoCollection<AgendaMedico> _collection = client.GetDatabase(DbName).GetCollection<AgendaMedico>("agendaMedico"); ;
+            IMongoCollection<AgendaMedico> _collection = client.GetDatabase(DbName).GetCollection<AgendaMedico>("agendaMedico");
             var filter = Builders<AgendaMedico>.Filter.Eq(e => e.MedicoID, medicoID);
             var allDocs = _collection.Find(filter).ToList();
             return allDocs;

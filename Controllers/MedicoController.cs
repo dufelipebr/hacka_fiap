@@ -138,25 +138,22 @@ namespace fiap_hacka.Controllers
             return Ok(lista);
         }
 
+        [HttpPut]
+        public IActionResult alterar_agendamentos_medicos(DisponibilidadeDTO disponilidade) {
 
-        /// <summary>
-        /// item 8. Apos o agendamento realizado pelo usuario paciente, o medico deverá receber um email.
-        /// </summary>
-        /// <returns>Ok para sucesso ou string com o erro</returns>
-        [HttpPost("notificao_consulta")]
-        public IActionResult notificao_consulta(ConsultaDTO consultaDTO)
-        {
-            try
-            {
-             
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            return Ok("Ok");
+            var agendamento = _agendaMedicoRepository.ObterPorId(disponilidade.Id);
+
+            if (agendamento == null)
+                return NotFound("Agendamento não encontrado!");
+
+            if (agendamento.flagReservado == true)
+                return BadRequest("Agendamento com consulta marcada não pode ser alterada!");
+
+            AgendaMedico agendaMedico = new AgendaMedico(disponilidade);
+
+            _agendaMedicoRepository.Alterar(agendaMedico);
+            return Ok("ok");
+
         }
-
-
     }
 }

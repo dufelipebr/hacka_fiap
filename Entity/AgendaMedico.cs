@@ -10,6 +10,7 @@ namespace apibronco.bronco.com.br.Entity
     {
         public AgendaMedico(DisponibilidadeDTO dto)
         {
+            this.Id = dto.Id;
             this.CRM_BeforeLoad = dto.CRM;
             //this.DataHoraInicio = dto.DataHoraInicio;
             //this.DataHoraFim = dto.DataHoraFim;
