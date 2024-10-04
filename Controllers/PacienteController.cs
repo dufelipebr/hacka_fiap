@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace fiap_hacka.Controllers
 {
-    [Authorize(Roles = "Paciente")]
     [Route("api/[controller]")]
     [ApiController]
     public class PacienteController : ControllerBase
@@ -42,7 +41,7 @@ namespace fiap_hacka.Controllers
         /// </summary>
         /// <param name="info">informações do usuario segurado que será criado</param>
         /// <returns></returns>
-        //[Authorize]
+        
         [HttpPost("cadastrar_paciente")]
         public IActionResult cadastrar_paciente([FromBody] PacienteDTO info)
         {
@@ -74,7 +73,7 @@ namespace fiap_hacka.Controllers
         /// </summary>
         /// informações dos pacientes cadastrados na base.
         /// <returns></returns>
-        //[Authorize]
+        //[Authorize(Roles = "Paciente")]
         [HttpGet("listar_pacientes")]
         public IActionResult listar_pacientes()
         {
@@ -94,6 +93,7 @@ namespace fiap_hacka.Controllers
         /// item 7. apos selecionar o medico, o paciente deve visualizar os dias e horarios disponiveis do medico.
         /// </summary>
         /// <returns>array de ProdutoInfo[]</returns>
+        [Authorize(Roles = "Paciente")]
         [HttpGet("obter_agendamentos_medico_disponiveis/{crmMedico}")]
         public IActionResult obter_agendamentos_medico_disponiveis(string crmMedico)
         {
@@ -111,6 +111,7 @@ namespace fiap_hacka.Controllers
         /// item 7. O Paciente poderá selecionar o horario de preferencia e realizar o agendamento
         /// </summary>
         /// <returns>Ok para sucesso ou string com o erro</returns>
+        [Authorize(Roles = "Paciente")]
         [HttpPost("agendar_consulta_medico")]
         public IActionResult agendar_consulta_medico(ConsultaDTO consultaDTO)
         {

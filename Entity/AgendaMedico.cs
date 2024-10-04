@@ -11,7 +11,21 @@ namespace apibronco.bronco.com.br.Entity
     {
         public AgendaMedico(DisponibilidadeDTO dto)
         {
-            this.Id = dto.Id;
+            //this.Id = dto.Id;
+            this.CRM_BeforeLoad = dto.CRM;
+            //this.DataHoraInicio = dto.DataHoraInicio;
+            //this.DataHoraFim = dto.DataHoraFim;
+            this.AgendaTime_ini = new AgendaTime(dto.DataHoraInicio);
+            this.AgendaTime_fim = new AgendaTime(dto.DataHoraFim.AddSeconds(-1));
+
+            //this.TempoConsulta = dto.DataHoraFim;
+
+            IsValid();
+        }
+
+        public AgendaMedico(AlterarDisponibilidadeDTO dto)
+        {
+            //this.Id = dto.Id;
             this.CRM_BeforeLoad = dto.CRM;
             //this.DataHoraInicio = dto.DataHoraInicio;
             //this.DataHoraFim = dto.DataHoraFim;
