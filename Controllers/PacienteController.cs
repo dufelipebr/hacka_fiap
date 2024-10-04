@@ -144,7 +144,7 @@ namespace fiap_hacka.Controllers
                             $"<p>Data e horário: {agenda.AgendaTime_ini.Data.ToString("dd/MM/yyyy")} às {agenda.AgendaTime_ini.Hora} horas.</p>";
 
 
-                _sendEmail.SendEmailAsync("ti.alexandre.costa@gmail.com", "Health&Med - Nova consulta agendada", bodyEmail);
+                _sendEmail.SendEmailAsync(usuario.Email, "Health&Med - Nova consulta agendada", bodyEmail);
 
             }
             catch (Exception ex)
