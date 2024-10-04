@@ -3,11 +3,13 @@ using apibronco.bronco.com.br.Entity;
 using apibronco.bronco.com.br.Interfaces;
 using apibronco.bronco.com.br.Repository.Mongodb;
 using fiap_hacka.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fiap_hacka.Controllers
 {
+    [Authorize(Roles = "Paciente")]
     [Route("api/[controller]")]
     [ApiController]
     public class PacienteController : ControllerBase

@@ -2,12 +2,14 @@
 using apibronco.bronco.com.br.Entity;
 using apibronco.bronco.com.br.Interfaces;
 using fiap_hacka.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Amqp.Framing;
 using MongoDB.Driver.Linq;
 
 namespace fiap_hacka.Controllers
 {
+    [Authorize(Roles = "Medico")]
     [Route("api/[controller]")]
     [ApiController]
     public class MedicoController : ControllerBase
@@ -37,7 +39,6 @@ namespace fiap_hacka.Controllers
         /// </summary>
         /// <param name="info">informações do usuario segurado que será criado</param>
         /// <returns>Ok - sucesso</returns>
-        //[Authorize]
         [HttpPost("cadastrar_medico")]
         public IActionResult cadastrar_medico([FromBody] MedicoDTO info)
         {
