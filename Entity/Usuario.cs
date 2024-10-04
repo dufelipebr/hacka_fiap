@@ -11,15 +11,17 @@ namespace apibronco.bronco.com.br.Entity
             this.Email= info.Email;
             this.Senha = info.Senha;
             this.TipoLogin = EnumTipoAcesso.Paciente;
+            this.Email = new ObjectEmail(info.Email).Email_Value ;
 
             IsValid();
         }
 
         public Usuario(MedicoDTO info)
         {
-            this.Email = info.Email;
+            //this.Email = info.Email;
             this.Senha = info.Senha;
             this.TipoLogin = EnumTipoAcesso.Medico;
+            this.Email = new ObjectEmail(info.Email).Email_Value;
 
             IsValid();
         }
@@ -27,6 +29,8 @@ namespace apibronco.bronco.com.br.Entity
 
         #region properties 
         public string Email { get; set; }
+
+        //public ObjectEmail Email_Novo { get; set; }
 
         public string Senha { get; set; }
 
@@ -40,6 +44,7 @@ namespace apibronco.bronco.com.br.Entity
         {
             AssertionConcern.AssertArgumentNotEmpty(Email, "Email precisa ser preenchido.");
             AssertionConcern.AssertArgumentNotEmpty(Senha, "Senha precisa ser preenchido.");
+            //AssertionConcern.AssertArgumentNotEmpty(Email_Novo.ToString(), "Email invalido.");
 
             return true;
         }

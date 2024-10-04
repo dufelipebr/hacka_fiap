@@ -34,16 +34,17 @@ namespace fiap_hacka.Controllers
             try
             {
                 Usuario usr = new Usuario(info);
-                _usuarioRepository.Cadastrar(usr);
-
-                // criar usuario na base de dados
                 Paciente paciente = new Paciente(info);
+
+                bool isValid = paciente.IsValid() && usr.IsValid();
+
+                if (!_usuarioRepository.IsUnique(usr))
+                    return BadRequest("O Email do usuario já está sendo utilizado.");
+
+                if (isValid) _usuarioRepository.Cadastrar(usr); // criar usuario na base de dados
+                
                 paciente.UsuarioID = usr.Id;
-                _pacienteRepository.Cadastrar(paciente);
-
-                // Persistindo usuario com referencia do Id gerado para obter depois
-
-
+                if (isValid) _pacienteRepository.Cadastrar(paciente);  // Persistindo usuario com referencia do Id gerado para obter depois
             }
             catch (Exception ex)
             {
