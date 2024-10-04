@@ -90,17 +90,14 @@ namespace fiap_hacka.Controllers
 
                 disp.MedicoID = validaMedico.FirstOrDefault().Id;
                 var obterAgenda =  _agendaMedicoRepository.ObterPorMedicoID(disp.MedicoID);
-                var obterAgendasBetween = obterAgenda.Where(x=> disponilidade.DataHoraInicio >= x.AgendaTime_ini.GetDate() && disponilidade.DataHoraInicio <= x.AgendaTime_fim.GetDate()).ToList();
 
-                if (obterAgendasBetween.Count > 0)
-                    return BadRequest("Agenda está sobrepondo existente.");
-
-
-                
+                //var obterAgendasBetween = obterAgenda.Where(x=> disponilidade.DataHoraInicio >= x.AgendaTime_ini.GetDate() && disponilidade.DataHoraInicio <= x.AgendaTime_fim.GetDate()).ToList();
+                //if (obterAgendasBetween.Count > 0)
+                bool checkSobreposicao = disp.checkSobrePosicao_Agendamento(obterAgenda);
+                if (checkSobreposicao)  return BadRequest("Agenda está sobrepondo existente.");
+               
                 _agendaMedicoRepository.Cadastrar(disp);
                 
-                //_usuarioRepository.Cadastrar(usr);
-
             }
             catch (Exception ex)
             {
@@ -150,8 +147,15 @@ namespace fiap_hacka.Controllers
                 return BadRequest("Agendamento com consulta marcada não pode ser alterada!");
 
             AgendaMedico agendaMedico = new AgendaMedico(disponilidade);
+            agendamento.AgendaTime_ini = agendaMedico.AgendaTime_ini;
+            agendamento.AgendaTime_fim = agendaMedico.AgendaTime_fim;
 
-            _agendaMedicoRepository.Alterar(agendaMedico);
+            // check sobreposição
+            var obterAgenda = _agendaMedicoRepository.ObterPorMedicoID(agendamento.MedicoID);
+            bool checkSobreposicao = agendamento.checkSobrePosicao_Agendamento(obterAgenda);
+            if (checkSobreposicao) return BadRequest("Agenda está sobrepondo existente.");
+
+            _agendaMedicoRepository.Alterar(agendamento);
             return Ok("ok");
 
         }

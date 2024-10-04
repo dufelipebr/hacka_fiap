@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using apibronco.bronco.com.br.DTOs;
 using apibronco.bronco.com.br.Entity;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace xunit.hackfiap
 {
@@ -92,6 +93,34 @@ namespace xunit.hackfiap
             Assert.Equal("", result);
         }
 
+        [Fact]
+        [Trait("Usuario", "Validando Usuario Email")]
+        public void Validate_CadastrarUsuario_EmailValido()
+        {
+            // Arrange
+            MedicoDTO dto = new MedicoDTO();
+            dto.Email = "du.felipe.brgmail.com";
+            dto.Senha = "123456";
+            dto.Nome = "carlos oliveira";
+            dto.Senha = "@123456cC";
+            dto.CPF_CNPJ = "553.111.121-12";
+            dto.NumeroCrm = "crm1234";
+
+            //act
+
+            var result = "";
+            try
+            {
+                Usuario user = new Usuario(dto);
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            Assert.Equal("Email invalido.", result);
+        }
+
         //[Fact]
         //public void Usuario_Testing_Valid_Email()
         //{
@@ -150,7 +179,7 @@ namespace xunit.hackfiap
         //    var option4 = "asdjhkjasd"; // fail 1 - max 14
         //    var option5 = "@123 456C";// fail 4
         //    var option6 = "@123456cC";// OK 
-            
+
 
 
         //    UsuarioService us = new UsuarioService();
