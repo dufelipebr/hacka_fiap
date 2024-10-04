@@ -2,6 +2,7 @@
 using apibronco.bronco.com.br.Entity;
 using apibronco.bronco.com.br.Interfaces;
 using apibronco.bronco.com.br.Repository.Mongodb;
+using fiap_hacka.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,17 +15,30 @@ namespace fiap_hacka.Controllers
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IPacienteRepository _pacienteRepository;
         private readonly IMedicoRepository _medicoRepository;
-        public PacienteController(IMedicoRepository medicoRepository, IUsuarioRepository usuarioRepository, IPacienteRepository pacienteRepository)
+        private readonly ISendEmail _sendEmail;
+        private readonly IAgendaMedicoRepository _agendaMedicoRepository;
+        private readonly IConsultaRepository _consultaRepository;
+        public PacienteController(
+                IMedicoRepository medicoRepository, 
+                IUsuarioRepository usuarioRepository, 
+                IPacienteRepository pacienteRepository,
+                ISendEmail sendEmail,
+                IAgendaMedicoRepository agendaMedicoRepository,
+                IConsultaRepository consultaRepository
+            )
         {
 
             _medicoRepository = medicoRepository;
             _usuarioRepository = usuarioRepository;
             _pacienteRepository = pacienteRepository;
+            _sendEmail = sendEmail;
+            _agendaMedicoRepository = agendaMedicoRepository;
+            _consultaRepository = consultaRepository;
         }
         /// <summary>
         /// item 4. permite a criação de usuarios - segurados no corretor online
         /// </summary>
-        /// <param name="RegisterInfo">informações do usuario segurado que será criado</param>
+        /// <param name="info">informações do usuario segurado que será criado</param>
         /// <returns></returns>
         //[Authorize]
         [HttpPost("cadastrar_paciente")]
@@ -72,5 +86,71 @@ namespace fiap_hacka.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// item 7. apos selecionar o medico, o paciente deve visualizar os dias e horarios disponiveis do medico.
+        /// </summary>
+        /// <returns>array de ProdutoInfo[]</returns>
+        [HttpGet("obter_agendamentos_medico_disponiveis/{crmMedico}")]
+        public IActionResult obter_agendamentos_medico_disponiveis(string crmMedico)
+        {
+            List<Medico> validaMedico = _medicoRepository.ObterTodos().Where(o => o.CRM == crmMedico).ToList();
+
+            if (validaMedico == null)
+                return NotFound("Médico não encontrado pelo CRM.");
+
+            var lista = _agendaMedicoRepository.ObterPorMedicoID(validaMedico.FirstOrDefault().Id).Where(d => d.flagReservado == false);
+
+            return Ok(lista);
+        }
+
+        /// <summary>
+        /// item 7. O Paciente poderá selecionar o horario de preferencia e realizar o agendamento
+        /// </summary>
+        /// <returns>Ok para sucesso ou string com o erro</returns>
+        [HttpPost("agendar_consulta_medico")]
+        public IActionResult agendar_consulta_medico(ConsultaDTO consultaDTO)
+        {
+            try
+            {
+
+                var paciente = _pacienteRepository.ObterPorCodigo(consultaDTO.cpf_Paciente);
+                if (paciente == null)
+                    return BadRequest("Paciente não encontrado");
+
+                var agenda = _agendaMedicoRepository.ObterPorId(consultaDTO.AgendaID);
+                if (agenda == null)
+                    return BadRequest("Agenda não encontrado");
+
+                if (agenda.flagReservado)
+                    return BadRequest("Horario já reservado");
+
+
+                Consulta cons = new Consulta(paciente.Id, agenda.Id, true);
+                agenda.flagReservado = true;
+                _agendaMedicoRepository.Alterar(agenda); // reservar a agenda do medico
+                _consultaRepository.Cadastrar(cons);// criar a consulta.
+
+                var medico = _medicoRepository.ObterPorId(agenda.MedicoID);
+
+                var usuario = _usuarioRepository.ObterPorId(medico.UsuarioID);
+
+                var bodyEmail = $"<p>Olá Dr. {medico.Nome}!</p>" +
+                            $"<p>Você tem uma nova consulta marcada!</p>" +
+                            $"<p>Paciente: {paciente.Nome}.</p>" +
+                            $"<p>Data e horário: {agenda.AgendaTime_ini.Data.ToString("dd/MM/yyyy")} às {agenda.AgendaTime_ini.Hora} horas.</p>";
+
+
+                _sendEmail.SendEmailAsync("ti.alexandre.costa@gmail.com", "Health&Med - Nova consulta agendada", bodyEmail);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok("Ok");
+        }
+
+
     }
 }

@@ -22,8 +22,7 @@ namespace fiap_hacka.Services
             {
                 var message = new MimeMessage();
 
-                message.From.Add(new MailboxAddress(_smtpSettings.SenderName,
-                                                    _smtpSettings.SenderEmail));
+                message.From.Add(new MailboxAddress(_smtpSettings.SenderName,_smtpSettings.SenderEmail));
                 message.To.Add(new MailboxAddress("destino", email));
                 message.Subject = subject;
                 message.Body = new TextPart("html")

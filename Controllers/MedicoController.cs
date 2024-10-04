@@ -3,6 +3,7 @@ using apibronco.bronco.com.br.Entity;
 using apibronco.bronco.com.br.Interfaces;
 using fiap_hacka.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Amqp.Framing;
 using MongoDB.Driver.Linq;
 
 namespace fiap_hacka.Controllers
@@ -16,21 +17,19 @@ namespace fiap_hacka.Controllers
         private readonly IConsultaRepository _consultaRepository;
         private readonly IAgendaMedicoRepository _agendaMedicoRepository;
         private readonly IPacienteRepository _pacienteRepository;
-        private readonly ISendEmail _sendEmail;
+
 
         public MedicoController(IMedicoRepository medicoRepository, 
             IUsuarioRepository usuarioRepository,
             IConsultaRepository consultaRepository,
             IAgendaMedicoRepository agendaMedicoRepository,
-            IPacienteRepository pacienteRepository,
-            ISendEmail sendEmail)
+            IPacienteRepository pacienteRepository)
         {
             _medicoRepository = medicoRepository;
             _usuarioRepository = usuarioRepository;
             _agendaMedicoRepository = agendaMedicoRepository;
             _pacienteRepository = pacienteRepository;
             _consultaRepository = consultaRepository;
-            _sendEmail = sendEmail;
         }
 
         /// <summary>
@@ -128,45 +127,6 @@ namespace fiap_hacka.Controllers
             var lista = _agendaMedicoRepository.ObterPorMedicoID(validaMedico.FirstOrDefault().Id);
 
             return Ok(lista);
-        }
-
-        /// <summary>
-        /// item 7. O Paciente poderá selecionar o horario de preferencia e realizar o agendamento
-        /// </summary>
-        /// <returns>Ok para sucesso ou string com o erro</returns>
-        [HttpPost("agendar_consulta_medico")]
-        public IActionResult agendar_consulta_medico(ConsultaDTO consultaDTO)
-        {
-            try
-            {
-
-                var paciente = _pacienteRepository.ObterPorCodigo(consultaDTO.cpf_Paciente);
-                if (paciente == null)
-                    return BadRequest("Paciente não encontrado");
-
-                var agenda = _agendaMedicoRepository.ObterPorId(consultaDTO.AgendaID);
-                if (agenda == null)
-                    return BadRequest("Agenda não encontrado");
-
-                if (agenda.flagReservado)
-                    return BadRequest("Horario já reservado");
-
-               
-                Consulta cons = new Consulta(paciente.Id, agenda.Id, true);
-                agenda.flagReservado = true;
-                _agendaMedicoRepository.Alterar(agenda); // reservar a agenda do medico
-                _consultaRepository.Cadastrar(cons);// criar a consulta.
-
-                var medico = _medicoRepository.ObterPorUsuarioID(agenda.MedicoID);
-
-                _sendEmail.SendEmailAsync("ti.alexandre.costa@gmail.com", "teste de envio", "Olá teste");
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            return Ok("Ok");
         }
 
 
